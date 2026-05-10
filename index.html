@@ -66,30 +66,28 @@
   </main>
   
   
-  <div class="runtime-home" id="runtime">
+  <div class="runtime" id="runtime">
     正在计算运行时间...
   </div>
   <script src="/navbar/script.js"></script>
   <script>
-    <script>
-const API_URL = 'https://runtime-api.workers.dev/api/runtime';
+const API = 'https://runtime-api.touricn.workers.dev/api/runtime';
 
-async function updateRuntime() {
-  try {
-    const res = await fetch(API_URL);
-    const d = await res.json();
-
-    document.getElementById('runtime').innerHTML = `
-      本站已运行：
-      <span>${d.days}</span> 天
-      <span>${d.hours}</span> 时
-      <span>${d.minutes}</span> 分
-      <span>${d.seconds}</span> 秒
-    `;
-  } catch (e) {
-    document.getElementById('runtime').innerText = '加载失败';
-    console.error(e);
-  }
+function updateRuntime() {
+  fetch(API)
+    .then(res => res.json())
+    .then(d => {
+      document.getElementById('runtime').innerHTML = `
+        本站已运行：
+        <span>${d.days}</span> 天
+        <span>${d.hours}</span> 时
+        <span>${d.minutes}</span> 分
+        <span>${d.seconds}</span> 秒
+      `;
+    })
+    .catch(() => {
+      document.getElementById('runtime').innerText = '加载失败';
+    });
 }
 
 updateRuntime();
