@@ -29,17 +29,6 @@
       font-size: 16px;
       color: #666;
     }
-    .runtime {
-  margin-top: 24px;
-  font-size: 14px;
-  color: #555;
-}
-
-.runtime span {
-  color: #4f46e5;
-  font-weight: 600;
-  margin: 0 2px;
-}
   </style>
 </head>
 <body>
@@ -64,34 +53,7 @@
     <br>包含各个分类，怎么用都用得上
     <br>(请使用菜单栏来打开项目。)</p>
   </main>
-  
-  
-  <div class="runtime" id="runtime">
-    正在计算运行时间...
-  </div>
+  
   <script src="/navbar/script.js"></script>
-  <script>
-const API = 'https://runtime-api.touricn.workers.dev/api/runtime';
-
-function updateRuntime() {
-  fetch(API)
-    .then(res => res.json())
-    .then(d => {
-      document.getElementById('runtime').innerHTML = `
-        本站已运行：
-        <span>${d.days}</span> 天
-        <span>${d.hours}</span> 时
-        <span>${d.minutes}</span> 分
-        <span>${d.seconds}</span> 秒
-      `;
-    })
-    .catch(() => {
-      document.getElementById('runtime').innerText = '加载失败';
-    });
-}
-
-updateRuntime();
-setInterval(updateRuntime, 1000);
-</script>
 </body>
 </html>
