@@ -1,6 +1,6 @@
 [
   {
-    "icon": "/favicon.png"
+    "icon": "/favicon.png",
     "title": "网页编辑器",
     "desc": "使用Monaco Editor构建编辑，可选择文件编辑。",
     "url": "/tools/editor.html"
