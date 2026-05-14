@@ -1,0 +1,20 @@
+[
+  {"category":"我的项目",
+    "items": [
+      {
+        "type": "link",
+        "icon": "/favicon.png",
+        "title": "网页编辑器",
+        "desc": "使用 Monaco Editor 构建，可选择文件编辑。",
+        "url": "/tools/editor.html"
+      },
+      {
+        "type": "link",
+        "icon": "/favicon.png",
+        "title": "GitHub 源代码",
+        "desc": "代码由 AI 生成，也许可以用来参考并使用？",
+        "url": "https://github.com/touricn/touricn-website"
+      }
+    ]
+  }
+]
