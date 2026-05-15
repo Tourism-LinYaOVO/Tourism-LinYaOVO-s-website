@@ -4,10 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TouriCNの站点</title>
-
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
-<!-- Marked.js (专业 Markdown 解析) -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <style>
@@ -34,7 +31,7 @@ body {
   padding:40px 20px;
 }
 /* ===== 头像 ===== */
-.avatar-wrap { text-align:center; margin-bottom:30px; }
+.avatar-wrap { text-align:center; margin-bottom:20px; }
 .avatar {
   width:120px; height:120px;
   border-radius:50%;
@@ -50,54 +47,64 @@ body {
 .avatar-text h1 { font-size:28px; margin-bottom:5px; }
 .avatar-text p { font-size:14px; opacity:0.8; }
 
-/* ===== 分类标题 ===== */
-.category-title {
-  font-size: 22px;
-  margin-top: 25px;
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  color: #FFB7C5;
+/* ===== Tab 栏（无边框版） ===== */
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 30px 0;
 }
-/* 子分类标题（小一号） */
-.sub-category-title {
-  font-size: 18px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: rgba(255,255,255,0.9);
-  padding-left: 10px;
-  border-left: 3px solid #FFB7C5;
+.tab-item {
+  padding: 10px 20px;
+  border-radius: 12px; /* 圆角，非胶囊 */
+  cursor: pointer;
+  transition: all 0.3s;
+  background: rgba(255,255,255,0.08); /* 默认半透明背景 */
+  color: rgba(255,255,255,0.7);
+}
+.tab-item:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+.tab-item.active {
+  background: #FFB7C5; /* 选中时粉色实心 */
+  color: #1a1a2e;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255,183,197,0.3);
 }
 
-/* ===== 文档内容区域（核心） ===== */
+/* ===== 内容区域 ===== */
+.content-area {
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+.content-area.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== 文档样式 ===== */
 .doc-content {
-  margin-top: 15px;
   padding: 25px;
   background: rgba(0,0,0,0.4);
   backdrop-filter: blur(10px);
   border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.1);
-  line-height: 1.9; /* 阅读舒适度 */
+  line-height: 1.9;
   font-size: 15px;
-  color: rgba(255,255,255,0.85);
 }
 .doc-content h1, .doc-content h2, .doc-content h3 {
   color: #FFB7C5;
   margin: 20px 0 10px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-.doc-content h1 { font-size: 24px; }
-.doc-content h2 { font-size: 20px; }
-.doc-content h3 { font-size: 18px; }
-
-/* 代码块 */
 .doc-content pre {
   background: rgba(0,0,0,0.5);
   padding: 15px;
   border-radius: 10px;
   overflow-x: auto;
-  border: 1px solid rgba(255,255,255,0.1);
   margin: 15px 0;
 }
 .doc-content code {
@@ -107,29 +114,11 @@ body {
   border-radius: 4px;
   color: #FFB7C5;
 }
-/* 引用 */
 .doc-content blockquote {
   border-left: 4px solid #FFB7C5;
   padding-left: 15px;
   margin: 15px 0;
   color: rgba(255,255,255,0.6);
-}
-/* 列表 */
-.doc-content ul, .doc-content ol {
-  padding-left: 20px;
-}
-/* 表格 */
-.doc-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 15px 0;
-}
-.doc-content th, .doc-content td {
-  border: 1px solid rgba(255,255,255,0.2);
-  padding: 8px 12px;
-}
-.doc-content th {
-  background: rgba(255,183,197,0.1);
 }
 
 /* ===== 链接卡片 ===== */
@@ -137,7 +126,6 @@ body {
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
   gap:15px;
-  margin-top: 15px;
 }
 .card {
   display:flex;
@@ -148,7 +136,6 @@ body {
   padding:15px;
   text-decoration:none;
   color:#fff;
-  border:1px solid rgba(255,255,255,.15);
   transition:.3s;
 }
 .card:hover {
@@ -168,9 +155,9 @@ body {
   margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
 }
 .runtime {
-  text-align:center;
   font-size:14px;
 }
 .runtime span {
@@ -178,7 +165,6 @@ body {
   font-weight:bold;
 }
 .footer {
-  text-align:center;
   font-size:14px;
   opacity:.8;
   line-height:1.8;
@@ -199,12 +185,13 @@ body {
     </div>
   </div>
 
-  <!-- 2. 分类与内容区域 -->
-  <div class="menu-container" id="menu-container">
-    <!-- JS 会在这里直接生成分类和内容 -->
-  </div>
+  <!-- 2. Tab 栏（无边框） -->
+  <div class="tab-bar" id="tab-bar"></div>
 
-  <!-- 3. 底部信息 -->
+  <!-- 3. 内容区域 -->
+  <div id="content-container"></div>
+
+  <!-- 4. 底部信息 -->
   <div class="footer-info">
     <div class="runtime" id="runtime"></div>
     <div class="footer">
@@ -232,63 +219,32 @@ setInterval(updateRuntime, 1000);
 fetch('./data.json')
   .then(res => res.json())
   .then(categories => {
-    const container = document.getElementById('menu-container');
-    
-    categories.forEach(cat => {
-      
-      // 情况1：大分类本身就是文档（直接显示，不折叠）
+    const tabBar = document.getElementById('tab-bar');
+    const contentContainer = document.getElementById('content-container');
+
+    categories.forEach((cat, index) => {
+      // 1. 创建 Tab 按钮（无边框）
+      const tab = document.createElement('div');
+      tab.className = 'tab-item';
+      if (index === 0) tab.classList.add('active');
+      tab.textContent = cat.category;
+      tab.onclick = () => switchTab(index);
+      tabBar.appendChild(tab);
+
+      // 2. 创建内容区域
+      const area = document.createElement('div');
+      area.className = 'content-area';
+      area.id = `content-${index}`;
+      if (index === 0) area.classList.add('active');
+
+      // 文档
       if (cat.file) {
-        const section = document.createElement('div');
-        section.className = 'category-section';
-        
-        const title = document.createElement('div');
-        title.className = 'category-title';
-        title.textContent = cat.category;
-        
-        const docArea = document.createElement('div');
-        docArea.className = 'doc-content';
-        docArea.id = `doc-${cat.category}`;
-        
-        section.appendChild(title);
-        section.appendChild(docArea);
-        container.appendChild(section);
-        
-        // 直接加载文档
-        loadDoc(docArea, cat.file);
-        return;
+        area.innerHTML = `<div class="doc-content" id="doc-${index}">加载中...</div>`;
+        contentContainer.appendChild(area);
+        loadDoc(`doc-${index}`, cat.file);
       }
-
-      // 情况2：大分类是分组
-      const title = document.createElement('div');
-      title.className = 'category-title';
-      title.textContent = cat.category;
-      container.appendChild(title);
-
-      // 子分类（文档）
-      if (cat.subCategories) {
-        cat.subCategories.forEach(sub => {
-          const section = document.createElement('div');
-          section.className = 'sub-category-section';
-          
-          const subTitle = document.createElement('div');
-          subTitle.className = 'sub-category-title';
-          subTitle.textContent = sub.subCategory;
-          
-          const docArea = document.createElement('div');
-          docArea.className = 'doc-content';
-          docArea.id = `doc-${sub.subCategory}`;
-          
-          section.appendChild(subTitle);
-          section.appendChild(docArea);
-          container.appendChild(section);
-          
-          // 直接加载文档
-          loadDoc(docArea, sub.file);
-        });
-      }
-
-      // 项目链接卡片
-      if (cat.items) {
+      // 项目卡片
+      else if (cat.items) {
         const wrap = document.createElement('div');
         wrap.className = 'links';
         cat.items.forEach(link => {
@@ -305,19 +261,28 @@ fetch('./data.json')
           `;
           wrap.appendChild(card);
         });
-        container.appendChild(wrap);
+        area.appendChild(wrap);
+        contentContainer.appendChild(area);
       }
     });
   });
 
-/* ===== 加载文档（使用 marked.js 完美适配） ===== */
-function loadDoc(container, file) {
-  container.innerHTML = `<p>加载中...</p>`;
-  
+/* ===== 切换 Tab ===== */
+function switchTab(index) {
+  document.querySelectorAll('.tab-item').forEach((tab, i) => {
+    tab.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.content-area').forEach((area, i) => {
+    area.classList.toggle('active', i === index);
+  });
+}
+
+/* ===== 加载文档 ===== */
+function loadDoc(containerId, file) {
+  const container = document.getElementById(containerId);
   fetch(file)
     .then(res => res.ok ? res.text() : Promise.reject('文件未找到'))
     .then(markdown => {
-      // 使用 marked 解析 Markdown 为 HTML
       container.innerHTML = marked.parse(markdown);
     })
     .catch(err => {
