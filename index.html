@@ -72,20 +72,14 @@ body {
   background: #FFB7C5;
   color: #1a1a2e;
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(255,183,197,0.3);
 }
 
 /* ===== 内容区域 ===== */
 .content-area {
   display: none;
-  animation: fadeIn 0.5s ease;
 }
 .content-area.active {
   display: block;
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 /* ===== 混合容器 ===== */
@@ -249,44 +243,32 @@ fetch('./data.json')
       const mixedContainer = document.createElement('div');
       mixedContainer.className = 'mixed-container';
 
-      // 4. 情况 A：分类直接是文档（只有 file）
+      // 4. 处理分类
       if (cat.file) {
+        // 情况 A：直接是文档
         const docDiv = document.createElement('div');
         docDiv.className = 'doc-content';
         docDiv.id = `doc-${index}`;
         docDiv.innerHTML = '<p>加载中...</p>';
         mixedContainer.appendChild(docDiv);
-        loadDoc(`doc-${index}`, cat.file);
-      }
-      // 5. 情况 B：分类下有 items（混合链接和文档）
-      else if (cat.items) {
+        loadDoc(docDiv, cat.file);
+      } else if (cat.items) {
+        // 情况 B：混合内容
         cat.items.forEach((item, itemIndex) => {
-          // 链接卡片
           if (item.type === 'link') {
             const card = document.createElement('a');
             card.className = 'card';
             card.href = item.url;
             card.target = '_blank';
-            card.innerHTML = `
-              <img src="${item.icon}" alt="${item.title}">
-              <div>
-                <h3>${item.title}</h3>
-                <p>${item.desc}</p>
-              </div>
-            `;
+            card.innerHTML = `<img src="${item.icon}"><div><h3>${item.title}</h3><p>${item.desc}</p></div>`;
             mixedContainer.appendChild(card);
-          }
-          // 文档
-          else if (item.type === 'markdown') {
+          } else if (item.type === 'markdown') {
             const docDiv = document.createElement('div');
             docDiv.className = 'doc-content';
-            const docId = `doc-${index}-${itemIndex}`;
-            docDiv.id = docId;
+            docDiv.id = `doc-${index}-${itemIndex}`;
             docDiv.innerHTML = '<p>加载中...</p>';
             mixedContainer.appendChild(docDiv);
-            
-            // 立即加载文档
-            loadDoc(docId, item.file);
+            loadDoc(docDiv, item.file);
           }
         });
       }
@@ -294,42 +276,23 @@ fetch('./data.json')
       area.appendChild(mixedContainer);
       contentContainer.appendChild(area);
     });
-  })
-  .catch(err => {
-    console.error('加载数据失败:', err);
-    document.getElementById('content-container').innerHTML = 
-      '<p style="color:#ff6b6b;text-align:center;">加载数据失败，请检查 data.json 文件。</p>';
   });
 
 /* ===== 切换 Tab ===== */
 function switchTab(index) {
-  document.querySelectorAll('.tab-item').forEach((tab, i) => {
-    tab.classList.toggle('active', i === index);
-  });
-  document.querySelectorAll('.content-area').forEach((area, i) => {
-    area.classList.toggle('active', i === index);
-  });
+  document.querySelectorAll('.tab-item').forEach((tab, i) => tab.classList.toggle('active', i === index));
+  document.querySelectorAll('.content-area').forEach((area, i) => area.classList.toggle('active', i === index));
 }
 
 /* ===== 加载文档 ===== */
-function loadDoc(containerId, file) {
-  const container = document.getElementById(containerId);
-  if (!container) {
-    console.error('容器未找到:', containerId);
-    return;
-  }
-  
-  fetch(file)
-    .then(res => {
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${file}`);
-      return res.text();
-    })
+function loadDoc(container, filePath) {
+  fetch(filePath)
+    .then(res => res.ok ? res.text() : Promise.reject('文件未找到'))
     .then(markdown => {
       container.innerHTML = marked.parse(markdown);
     })
     .catch(err => {
-      container.innerHTML = `<p style="color:#ff6b6b;">加载失败：${err.message}</p>`;
-      console.error('文档加载失败:', err);
+      container.innerHTML = `<p style="color:#ff6b6b;">加载失败：${err}</p>`;
     });
 }
 </script>
