@@ -1,5 +1,6 @@
 [
-  {"category":"我的项目",
+  {
+    "category": "我的项目",
     "items": [
       {
         "type": "link",
@@ -17,19 +18,25 @@
       }
     ]
   },
-  {"category":"友谊链接",
+  {
+    "category": "友谊链接",
     "items": [
       {
         "type": "link",
         "icon": "https://www.travellings.cn/assets/travelling-dark.png",
         "title": "开往|Travelling",
-        "desc":"开往，来一场说走就走的网上旅行",
+        "desc": "开往，来一场说走就走的网上旅行",
         "url": "https://www.travellings.cn/go.html"
+      },
+      {
+        "type": "markdown",
+        "title": "如何申请添加您的网站",
+        "file": "post/friend.md"
       }
     ]
   },
   {
-    "category":"关于我/About me",
+    "category": "关于我/About me",
     "file": "post/about.md"
   }
 ]
