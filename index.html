@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<link rel="icon" href="/favicon.png" type="image/png">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TouriCNの站点</title>
@@ -48,14 +47,29 @@ body {
 .avatar-text h1 { font-size:28px; margin-bottom:5px; }
 .avatar-text p { font-size:14px; opacity:0.8; }
 
-/* ===== Tab 栏 ===== */
+/* ===== Tab 栏（修复版）===== */
 .tab-bar {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: flex-start; /* 左对齐，防止抖动 */
+  flex-wrap: nowrap; /* 禁止换行 */
   gap: 12px;
   margin: 30px 0;
+  overflow-x: auto; /* 允许横向滚动 */
+  padding: 5px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #FFB7C5 transparent;
 }
+.tab-bar::-webkit-scrollbar {
+  height: 6px;
+}
+.tab-bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.tab-bar::-webkit-scrollbar-thumb {
+  background: #FFB7C5;
+  border-radius: 3px;
+}
+
 .tab-item {
   padding: 10px 20px;
   border-radius: 12px;
@@ -63,6 +77,8 @@ body {
   transition: all 0.3s;
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.7);
+  white-space: nowrap; /* 防止文字换行 */
+  flex-shrink: 0; /* 防止被压缩 */
 }
 .tab-item:hover {
   background: rgba(255,255,255,0.15);
@@ -75,46 +91,24 @@ body {
 }
 
 /* ===== 内容区域 ===== */
-.content-area {
-  display: none;
-}
-.content-area.active {
-  display: block;
-}
+.content-area { display: none; }
+.content-area.active { display: block; }
 
 /* ===== 混合容器 ===== */
-.mixed-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.mixed-container { display: flex; flex-direction: column; gap: 20px; }
 
 /* ===== 链接卡片 ===== */
-.links {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
-  gap:15px;
-}
+.links { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:15px; }
 .card {
-  display:flex;
-  align-items:center;
+  display:flex; align-items:center;
   background:rgba(255,255,255,.1);
   backdrop-filter:blur(10px);
-  border-radius:20px;
-  padding:15px;
-  text-decoration:none;
-  color:#fff;
+  border-radius:20px; padding:15px;
+  text-decoration:none; color:#fff;
   transition:.3s;
 }
-.card:hover {
-  transform:scale(1.05);
-  background:rgba(255,255,255,.2);
-}
-.card img {
-  width:48px; height:48px;
-  border-radius:50%;
-  margin-right:15px;
-}
+.card:hover { transform:scale(1.05); background:rgba(255,255,255,.2); }
+.card img { width:48px; height:48px; border-radius:50%; margin-right:15px; }
 .card h3 { font-size:18px; margin-bottom:4px; }
 .card p { font-size:14px; opacity:.8; }
 
@@ -153,25 +147,10 @@ body {
 }
 
 /* ===== 底部信息 ===== */
-.footer-info {
-  margin-top: 40px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  text-align: center;
-}
-.runtime {
-  font-size:14px;
-}
-.runtime span {
-  color:#FFB7C5;
-  font-weight:bold;
-}
-.footer {
-  font-size:14px;
-  opacity:.8;
-  line-height:1.8;
-  margin-top:15px;
-}
+.footer-info { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;}
+.runtime { font-size:14px; }
+.runtime span { color:#FFB7C5; font-weight:bold; }
+.footer { font-size:14px; opacity:.8; line-height:1.8; margin-top:15px; }
 </style>
 </head>
 <body>
@@ -197,11 +176,12 @@ body {
   <div class="footer-info">
     <div class="runtime" id="runtime"></div>
     <div class="footer">
-      <p>Tips:该页面模仿了<a href="https://shenyouchu.cn" style="color:#FFB7C5;">沈幼楚的引导页</a>作为样式参考</p>
+      <p>Tips:该页面参考了<a href="https://shenyouchu.cn" style="color:#FFB7C5;">沈幼楚的引导页</a>的样式</p>
     </div>
   </div>
 </div>
 
-<script src=/script/index.js></script>
+<!-- 外部脚本引用 -->
+<script src="/script/index.js"></script>
 </body>
 </html>
